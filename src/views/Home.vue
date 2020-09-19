@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <img style="margin: 1rem auto;" alt="Vue logo" src="../assets/logo.png" />
+    <h2 style="margin: 1rem auto;">logo</h2>
+    <router-link to="/editor">editor</router-link> |
+    <router-link to="/guidance">help</router-link>
+
+    <EventCard v-for="n in 3" :key="n"> </EventCard>
+    <HelloWorld />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import EventCard from "../components/EventCard";
+import HelloWorld from "../components/HelloWorld";
 
 export default Vue.extend({
-  name: "Home",
+  name: "home",
   components: {
-    HelloWorld
-  }
+    EventCard,
+    HelloWorld,
+  },
 });
 </script>

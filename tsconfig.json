@@ -13,31 +13,24 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      
       "@wdio/mocha-framework",
       "@wdio/sync",
+      "vuetify",
       "jest"
     ],
+    "typeRoots": ["./components", "./types"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/plugins/vuetify.js",
+    "src/main.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
