@@ -18,7 +18,7 @@
       "vuetify",
       "jest"
     ],
-    "typeRoots": ["./components", "./types"],
+    "typeRoots": ["./types", "./node_modules/vue/types"],
     "paths": {
       "@/*": ["src/*"]
     },

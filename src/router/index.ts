@@ -26,12 +26,20 @@ const routes: Array<RouteConfig> = [
         component: () => import("../views/Home.vue")
       },
       {
+        path: "shoot",
+        component: () => import("../views/ShootPicture.vue")
+      },
+      {
         path: "editor",
         component: () => import("../views/Editor.vue")
       },
       {
         path: "result",
         component: () => import("../views/Result.vue")
+      },
+      {
+        path: "settings",
+        component: () => import("../views/Settings.vue")
       },
       {
         path: "about",
