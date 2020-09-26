@@ -1,28 +1,23 @@
 <template>
   <div>
+    <router-link to="/home"> Home</router-link>
     <v-list two-line subheader>
       <v-subheader>General</v-subheader>
 
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>Profile photo</v-list-item-title>
-          <v-list-item-subtitle>Change your Google+ profile photo</v-list-item-subtitle>
+          <v-list-item-subtitle>t</v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
-          <router-link to="/home">
-            <v-button>Home</v-button>
-          </router-link>
-        </v-list-item-action>
+        <v-list-item-action> </v-list-item-action>
       </v-list-item>
-
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>Show your status</v-list-item-title>
-          <v-list-item-subtitle>Your status is visible to everyone</v-list-item-subtitle>
+          <v-list-item-subtitle>t</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
-
     <v-list subheader two-line flat>
       <!-- settings -->
       <v-subheader>Functions</v-subheader>
@@ -32,8 +27,8 @@
             <v-icon :class="[item.iconClass]" v-text="item.icon"></v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{item.label}}</v-list-item-title>
-            <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+            <v-list-item-title>{{ item.label }}</v-list-item-title>
+            <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-switch :value="item.checked"></v-switch>
         </v-list-item>
@@ -47,7 +42,7 @@
             <v-icon :class="[item.iconClass]" v-text="item.icon"></v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title>{{item.label}}</v-list-item-title>
+            <v-list-item-title>{{ item.label }}</v-list-item-title>
           </v-list-item-content>
           <v-list-item-action>
             <v-btn icon>

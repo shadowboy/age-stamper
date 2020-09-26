@@ -58,7 +58,8 @@ export default Vue.extend({
             path: "https://i.imgur.com/QRX29tf.jpg",
             name: "SampleImage"
           },
-          initMenu: "filter"
+          initMenu: "filter",
+          menu: ["shape", "crop", "text"]
         },
         cssMaxWidth: 900,
         cssMaxHeight: 500

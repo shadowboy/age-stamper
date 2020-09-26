@@ -1,0 +1,74 @@
+{
+    "updates": [
+        {
+            "version": "1.5.0",
+            "manifest": [
+                "[New] Add user feedback system",
+                "[Fix] Fixed bugs when user del item make main page blank"
+            ]
+        },
+        {
+            "version": "1.4.0",
+            "manifest": [
+                "[New] Add user feedback system",
+                "[Fix] Fixed bugs when user del item make main page blank"
+            ]
+        }
+    ],
+    "appInfo": {
+        "appId": "wxada53099098fa7a4",
+        "buildVersion": 1001,
+        "version": "1.0.3",
+        "dataVersion": 1
+    },
+    "scenes": [
+        {
+            "id": 0,
+            "label": "宝贝多大了？",
+            "image": "scene_growth.jpg",
+            "value": "1",
+            "format": "age",
+            "explain": "记录宝贝，也可以是宠物，猫猫、狗狗，当前的年纪只要输入生日就可以",
+            "pretip": "我的",
+            "modifyTip": "修改宝宝昵称",
+            "atTip": "出生于",
+            "status": [
+                "当前 %time% 了",
+                "当前 %name% %time% 了"
+            ],
+            "entityTip": "宝宝"
+        },
+        {
+            "id": 1,
+            "label": "和 她/他/它 在一起多久了？",
+            "image": "scene_company.jpg",
+            "value": "2",
+            "format": "year",
+            "explain": "和男朋友/女朋友 老公/老婆 在一起的多少天都值得纪念，只要输入在一起的那一天就好",
+            "pretip": "我和",
+            "modifyTip": "修改陪伴对象",
+            "atTip": "相识于",
+            "status": [
+                "在一起 %time% 了",
+                "和 %name% 在一起 %time% 了"
+            ],
+            "entityTip": "伴侣"
+        },
+        {
+            "id": 2,
+            "label": "开始 做运动/背单词/读书 多久了？",
+            "image": "scene_insistent.jpg",
+            "value": "3",
+            "format": "year",
+            "explain": "每次拍照都可以看到你坚持的时间，不管是健身、读书、还是背单词，让记录和坚持都更加显而易见",
+            "pretip": "坚持",
+            "modifyTip": "修改坚持的活动名称",
+            "atTip": "开始于",
+            "status": [
+                "坚持 %time% 了",
+                "坚持 %name% %time% 了"
+            ],
+            "entityTip": "一件事"
+        }
+    ]
+}

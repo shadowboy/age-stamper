@@ -1,20 +1,34 @@
 /**
-* App info
-*/
+ * App info
+ */
 const appInfo = {
-    appId: "wxada53099098fa7a4",
-    buildVersion: 1001,
-    version: "1.0.3",
+    appId: "1",
+    appName: "Age Stamper",
+    buildVersion: 1,
+    version: "0.1",
     dataVersion: 1
 };
 
 /**
-* Scenes config
-*/
-const scenes = [{
-    id: 0,
+ * Scenes config
+ */
+interface CategoryType {
+    id: number;
+    label: string;
+    image: string;
+    value: string;
+    format: string;
+    explain: string;
+    pretip: string;
+    modifyTip: string;
+    atTip: string;
+    status: string[];
+    entityTip: string;
+}
+const scenes: CategoryType[] = [{
+    id: 1,
     label: "宝贝多大了？",
-    image: "/res/images/scene_growth.jpg",
+    image: "scene_growth.jpg",
     value: "1",
     format: "age",
     explain: "记录宝贝，也可以是宠物，猫猫、狗狗，当前的年纪只要输入生日就可以",
@@ -25,9 +39,9 @@ const scenes = [{
     entityTip: "宝宝"
 },
 {
-    id: 1,
+    id: 2,
     label: "和 她/他/它 在一起多久了？",
-    image: "/res/images/scene_company.jpg",
+    image: "scene_company.jpg",
     value: "2",
     format: "year",
     explain: "和男朋友/女朋友 老公/老婆 在一起的多少天都值得纪念，只要输入在一起的那一天就好",
@@ -37,9 +51,9 @@ const scenes = [{
     status: ["在一起 %time% 了", "和 %name% 在一起 %time% 了"],
     entityTip: "伴侣"
 }, {
-    id: 2,
+    id: 3,
     label: "开始 做运动/背单词/读书 多久了？",
-    image: "/res/images/scene_insistent.jpg",
+    image: "scene_insistent.jpg",
     value: "3",
     format: "year",
     explain: "每次拍照都可以看到你坚持的时间，不管是健身、读书、还是背单词，让记录和坚持都更加显而易见",
@@ -53,19 +67,19 @@ const scenes = [{
 
 const covers = [{
     id: 1,
-    image: "/res/images/wel_swiper_1.jpg",
+    image: "wel_swiper_1.jpg",
     title: "她多大了",
     desc: "记住她/他的年龄，留下带时间刻度的印记。"
 },
 {
     id: 2,
-    image: "/res/images/wel_swiper_2.jpg",
+    image: "wel_swiper_2.jpg",
     title: "坚持多久了",
     desc: "每一次努力都值得铭记。"
 },
 {
     id: 3,
-    image: "/res/images/wel_swiper_3.jpg",
+    image: "wel_swiper_3.jpg",
     title: "和他/她在一起多久了",
     desc: "相识相知，都印在那些瞬间里。"
 }
@@ -78,12 +92,12 @@ const shareInfo = {
     "default": {
         title: "嘿！我发现了一个给照片标注『时间』和『年龄』的小程序~",
         path: "/pages/index/index?from=share",
-        image: "/res/images/share_wxapp_image_2.jpg"
+        image: "share_wxapp_image_2.jpg"
     },
     "friend": {
         title: "推荐给你一个标注『时间』和『年龄』的小程序~",
         path: "/pages/index/index?from=share2friend",
-        image: "/res/images/share_wxapp_image_2.jpg"
+        image: "share_wxapp_image_2.jpg"
     },
     "photo2friend": {
         title: "我刚刚做了一个照片",
@@ -100,7 +114,6 @@ const shareInfo = {
 * ...
 */
 const timeFormats = [
-    //'hours', 'minute',
     'adaption', 'month', 'week', 'day', 'second'
 ];
 
@@ -112,11 +125,11 @@ const serverSettings = {
     apiBaseURL: "https://www.f1982.com/app/time-signet/"
 };
 
-module.exports = {
-    appInfo: appInfo,
-    scenes: scenes,
-    covers: covers,
-    shareInfo: shareInfo,
-    serverSettings: serverSettings,
-    timeFormats: timeFormats
+export {
+    appInfo,
+    scenes,
+    covers,
+    shareInfo,
+    serverSettings,
+    timeFormats
 }

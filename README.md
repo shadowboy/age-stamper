@@ -4,6 +4,12 @@ Vue UI library
 Vuetifyjs
 https://vuetifyjs.com/
 
+Icons
+https://materialdesignicons.com/
+
+Form Vuelidate
+https://vuelidate.js.org/#getting-started
+
 ## Project setup
 
 ```
@@ -43,3 +49,4 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+

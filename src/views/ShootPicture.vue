@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>{{platform}}</h2>
+    <h2>{{ platform }}</h2>
     <router-link to="/home">Home</router-link>
     <div>
       <video ref="video" id="video" width="640" height="480" autoplay></video>
@@ -41,7 +41,6 @@ export default {
       this.platform = "PC";
     }
   },
-
   beforeDestroy() {
     console.log("beforeDestroy");
     this.stopCamera(this.stream);
@@ -72,9 +71,7 @@ export default {
     },
     capture() {
       this.canvas = this.$refs.canvas;
-      const context = this.canvas
-        .getContext("2d")
-        .drawImage(this.video, 0, 0, 640, 480);
+      this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
       this.captures.push(this.canvas.toDataURL("image/png"));
     }
   }

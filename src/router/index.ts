@@ -1,6 +1,18 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import VueMeta from 'vue-meta'
+
 Vue.use(VueRouter);
+Vue.use(VueMeta);
+
+
+Vue.use(VueMeta, {
+  keyName: 'metaInfo',
+  attribute: 'data-vue-meta',
+  ssrAttribute: 'data-vue-meta-server-rendered',
+  tagIDKeyName: 'vmid',
+  refreshOnceOnNavigation: true
+})
 
 const routes: Array<RouteConfig> = [
   {
@@ -34,6 +46,17 @@ const routes: Array<RouteConfig> = [
         component: () => import("../views/Editor.vue")
       },
       {
+        path: "cropimage",
+        component: () => import("../views/CropImage.vue")
+      },
+      {
+        path: "themes",
+        component: () => import("../views/Themes.vue")
+      },
+      {
+        path: "addevent",
+        component: () => import("../views/AddEvent.vue")
+      }, {
         path: "result",
         component: () => import("../views/Result.vue")
       },
