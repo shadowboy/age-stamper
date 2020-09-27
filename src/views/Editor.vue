@@ -6,7 +6,11 @@
 <template>
   <div>
     <div class="imageEditorApp"></div>
-    <div ref="captureTarget" style="padding: 10px" align="center">
+    <div
+      ref="captureTarget"
+      style="padding: 10px; border: 3px solid #ffcc00; box-sizing:border-box;"
+      align="center"
+    >
       <h1>
         Hello World
       </h1>
@@ -16,7 +20,15 @@
       <h1>
         Hello World
       </h1>
-      <stamper />
+
+      <stamper
+        ><img
+          ondragstart="return false;"
+          style="width: 30px;height:auto;"
+          v-for="c in characters"
+          :key="c"
+          :src="'/img/themes/bubble/' + c + '.png'"
+      /></stamper>
     </div>
     <router-link to="/home">home</router-link>|
     <router-link to="/result">result</router-link>
@@ -38,6 +50,7 @@ export default Vue.extend({
     return {
       useDefaultUI: true,
       captureTarget: null,
+      characters: ["0", "1", "2", "3", "yue", "nian"],
       options: {
         includeUI: {
           loadImage: {

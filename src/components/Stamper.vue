@@ -1,6 +1,6 @@
 <template>
   <div style="position: absolute;" v-drag.window-only>
-    This element cannot be dragged outside the window
+    <div><slot></slot></div>
   </div>
 </template>
 
