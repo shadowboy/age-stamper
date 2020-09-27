@@ -38,9 +38,6 @@ export default {
       msg: "msg",
     };
   },
-  created(){
-    console.log('this.itemData:',this.itemData);
-  },
   methods:{
     editHandler: function(event){
       console.log('editHandler');

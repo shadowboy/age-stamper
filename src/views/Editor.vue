@@ -2,56 +2,42 @@
 .file-input {
   display: none;
 }
-.imageEditorApp {
-  width: 1000px;
-  height: 800px;
-}
 </style>
 <template>
   <div>
-    <div class="imageEditorApp">
-      <tui-image-editor
-        ref="tuiImageEditor"
-        :include-ui="useDefaultUI"
-        :options="options"
-        @addText="onAddText"
-        @objectMoved="onObjectMoved"
-      ></tui-image-editor>
+    <div class="imageEditorApp"></div>
+    <div ref="captureTarget" style="padding: 10px" align="center">
+      <h1>
+        Hello World
+      </h1>
+      <h1>
+        Hello World
+      </h1>
+      <h1>
+        Hello World
+      </h1>
+      <stamper />
     </div>
-    <v-row align="center"></v-row>
-
     <router-link to="/home">home</router-link>|
-    <router-link to="/result">result</router-link>|
-    <v-row align="center">
-      <v-btn x-large max-height="100" color="blue-grey" class="ma-2 white--text" @click="pickImage">
-        Upload
-        <input type="file" class="file-input" ref="fileInput" @input="fileSelected" />
-        <v-icon right dark>mdi-image-size-select-actual</v-icon>
-      </v-btn>
-    </v-row>
+    <router-link to="/result">result</router-link>
+    <button large @click="downloadVisualReport">Capture</button>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import ImageEditor from "@toast-ui/vue-image-editor/src/ImageEditor.vue";
-// To use the basic UI, the svg files for the icons is required.
-import "tui-image-editor/dist/svg/icon-a.svg";
-import "tui-image-editor/dist/svg/icon-b.svg";
-import "tui-image-editor/dist/svg/icon-c.svg";
-import "tui-image-editor/dist/svg/icon-d.svg";
-
-// Load Style Code
-import "tui-image-editor/dist/tui-image-editor.css";
+import html2canvas from "html2canvas";
+import Stamper from "../components/Stamper.vue";
 
 export default Vue.extend({
   name: "editor",
   components: {
-    "tui-image-editor": ImageEditor
+    stamper: Stamper
   },
   data() {
     return {
       useDefaultUI: true,
+      captureTarget: null,
       options: {
         includeUI: {
           loadImage: {
@@ -94,6 +80,15 @@ export default Vue.extend({
     },
     onObjectMoved(props: any) {
       console.log("imageData");
+    },
+    downloadVisualReport() {
+      html2canvas(this.$refs.captureTarget as HTMLElement)
+        .then((canvas: any) => {
+          document.body.appendChild(canvas);
+        })
+        .catch(error => {
+          console.log("Erorr descargando reporte visual", error);
+        });
     }
   }
 });

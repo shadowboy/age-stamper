@@ -38,7 +38,9 @@
           </v-btn>
         </div>
         <v-carousel
-          cycle
+          :continuous="false"
+          :cycle="false"
+          v-model="eventIndex"
           height="400"
           hide-delimiter-background
           show-arrows-on-hover
@@ -46,24 +48,24 @@
           <v-carousel-item
             v-for="(event, i) in userEvents"
             :key="i"
-            reverse-transition="fade-transition"
-            transition="fade-transition"
+            reverse-transition="scroll-x-reverse-transition"
+            transition="scroll-x-transition"
           >
             <EventCard :item-data="event" v-on:editEvent="itemEditHandler" />
           </v-carousel-item>
         </v-carousel>
-        <v-btn text small>Normal</v-btn>
+        <v-btn text small>{{ eventIndex }}</v-btn>
         <v-btn
           x-large
           max-height="100"
           color="blue-grey"
           class="ma-2 white--text"
-          to="/shoot"
+          to="/cropimage"
         >
           Camera
           <v-icon right dark>mdi-camera-plus</v-icon>
         </v-btn>
-        <router-link to="/cropimage">crop</router-link>
+        <router-link to="/shoot">shoot</router-link>
       </template>
     </div>
   </div>
@@ -72,18 +74,26 @@
 <script lang="ts">
 import Vue from "vue";
 import EventCard from "@/components/EventCard.vue";
+import { UserEvent, CategoryType } from "../types";
 import { TimeUtils } from "../utils/TimeUtils";
 import { scenes } from "../config/App";
 
 export default Vue.extend({
   name: "home",
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: "Age Stamper",
+    // all titles will be injected into this template
+    titleTemplate: "%s | Home"
+  },
   components: {
     EventCard
     // HelloWorld
   },
   data() {
     return {
-      userEvents: null,
+      userEvents: [],
+      eventIndex: 0,
       error: false
     };
   },
@@ -99,25 +109,27 @@ export default Vue.extend({
         this.error = true;
       }
     }
-    this.userEvents.forEach(event => {
-      console.log("event", event);
-      const status = this.getThemeStatus(event);
-      console.log("status", status);
-      event.status = status;
-    });
+    if (this.userEvents) {
+      this.userEvents.forEach((event: UserEvent) => {
+        const status = this.updateEventStatus(event, scenes as CategoryType[]);
+        event.status = status;
+      });
+    }
   },
-  watch: {},
   methods: {
-    itemEditHandler(itemData: any) {
-      console.log("itemData", itemData.id);
+    itemEditHandler(itemData: UserEvent) {
+      console.log("itemData", itemData);
     },
-    getThemeStatus(event: any) {
-      const scene = scenes[event.scene];
-      console.log("scene", scene);
+    /**
+     *
+     */
+    updateEventStatus(event: UserEvent, sceneList: CategoryType[]) {
+      const scene: CategoryType = sceneList.find(
+        (item: CategoryType) => item.id === event.scene
+      ) as CategoryType;
       const format = event.timeFormat ? event.timeFormat : scene.format;
-
-      const timeUtil = new TimeUtils(event.start, 0, scene.format);
-      let status = scene.status[0];
+      const timeUtil = new TimeUtils(event.start, scene.format);
+      let status = scene.status[0]; //which status format is used
       status = status.replace("%name%", event.entity);
       status = status.replace("%time%", timeUtil.getByFormat(format));
       return status;

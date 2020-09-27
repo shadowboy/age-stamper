@@ -9,25 +9,10 @@ const appInfo = {
     dataVersion: 1
 };
 
-/**
- * Scenes config
- */
-interface CategoryType {
-    id: number;
-    label: string;
-    image: string;
-    value: string;
-    format: string;
-    explain: string;
-    pretip: string;
-    modifyTip: string;
-    atTip: string;
-    status: string[];
-    entityTip: string;
-}
-const scenes: CategoryType[] = [{
+
+const scenes = [{
     id: 1,
-    label: "宝贝多大了？",
+    label: "How old is your baby?",
     image: "scene_growth.jpg",
     value: "1",
     format: "age",
@@ -35,7 +20,7 @@ const scenes: CategoryType[] = [{
     pretip: "我的",
     modifyTip: "修改宝宝昵称",
     atTip: "出生于",
-    status: ["当前 %time% 了", "当前 %name% %time% 了"],
+    status: ["Today %time% 了", "Today %name% is %time% old."],
     entityTip: "宝宝"
 },
 {

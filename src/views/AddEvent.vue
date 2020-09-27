@@ -47,14 +47,14 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
 import { UserEvent } from "../types";
 import { scenes } from "../config/App";
 
-export default {
+export default Vue.extend({
   mixins: [validationMixin],
-
   validations: {
     name: { required, maxLength: maxLength(10) },
     select: { required },
@@ -62,18 +62,19 @@ export default {
       required
     }
   },
-
-  data: () => ({
-    name: "",
-    select: null,
-    categories: scenes.map(item => item.label),
-    date: new Date().toISOString().substr(0, 10),
-    modal: false
-  }),
+  data() {
+    return {
+      name: "",
+      select: null,
+      categories: scenes.map(item => item.label),
+      date: new Date().toISOString().substr(0, 10),
+      modal: false
+    };
+  },
 
   computed: {
     nameErrors() {
-      const errors = [];
+      const errors: any[] = [];
       if (!this.$v.name.$dirty) return errors;
       !this.$v.name.maxLength &&
         errors.push("Name must be at most 10 characters long");
@@ -81,7 +82,7 @@ export default {
       return errors;
     },
     selectErrors() {
-      const errors = [];
+      const errors: any[] = [];
       if (!this.$v.select.$dirty) return errors;
       !this.$v.select.required && errors.push("Item is required");
       return errors;
@@ -89,8 +90,8 @@ export default {
   },
 
   methods: {
-    addNewEvent<T>(event: T) {
-      let userEvents: T[] = [];
+    addNewEvent(event: UserEvent): void {
+      let userEvents: UserEvent[] = [];
       if (localStorage.getItem("userEvents")) {
         userEvents = JSON.parse(localStorage.getItem("userEvents") as string);
       }
@@ -101,20 +102,21 @@ export default {
       this.$v.$touch();
       //   console.log(this.name, this.date, this.select);
       if (this.name && this.date && this.select) {
-        const scene = scenes.find(item => item.label === this.select);
+        const category = scenes.find(item => item.label === this.select);
         const userEvent: UserEvent = {
           id: "1",
           entity: this.name,
           start: this.date,
-          scene: scene ? scene.id : 0,
-          image: scene ? scene.image : "",
+          scene: category ? category.id : 0,
+          image: category ? category.image : "",
           count: 0,
-          status: ""
+          status: "",
+          timeFormat: ""
         };
         // console.log("userEvent", userEvent);
         // return;
         try {
-          this.addNewEvent<UserEvent>(userEvent);
+          this.addNewEvent(userEvent);
         } catch (e) {
           console.log("e", e);
         }
@@ -130,7 +132,7 @@ export default {
       this.$router.go(-1);
     }
   }
-};
+});
 </script>
 
 <style>
