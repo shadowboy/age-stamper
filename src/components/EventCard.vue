@@ -17,8 +17,6 @@
   </v-card>
 </template>
 <script lang="js">
-import Vue from "vue";
-
 export default {
   name: "EventCard",
   props: {

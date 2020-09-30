@@ -16,7 +16,7 @@ export default Vue.extend({
   },
   created: function() {
     console.log("guidance created..");
-  },
+  }
 });
 </script>
 

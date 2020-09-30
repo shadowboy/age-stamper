@@ -1,14 +1,7 @@
 # Age Stamper
 
-Vue UI library
-Vuetifyjs
-https://vuetifyjs.com/
-
-Icons
-https://materialdesignicons.com/
-
-Form Vuelidate
-https://vuelidate.js.org/#getting-started
+Age Stamper is a super useful and convenient tool for adding text to photos. It can help you remember the children's age in detail and accurately, no matter the age is just a few weeks after birth or a teenager. It also can be used for adding information to the photo with beautiful fonts and colours. Such as the kids' age and shooting time. Help young parents to record and share their children's beautiful moments.
+Users only need to input their children's birthday one time; Age Stamper will automatically calculate and format the age display for parents to facilitate their memory and understanding.
 
 ## Project setup
 
@@ -46,6 +39,3 @@ npm run test:e2e
 npm run lint
 ```
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).

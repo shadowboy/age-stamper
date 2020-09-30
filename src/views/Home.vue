@@ -12,7 +12,6 @@
     >
       You've got <strong>5</strong> new updates on your timeline!.
     </v-alert>
-
     <div class="d-flex flex-column mb-6">
       <template v-if="userEvents == null">
         <v-card class="mx-auto" max-width="344" outlined>
@@ -31,12 +30,13 @@
       <template v-else>
         <div>
           <v-btn class="mx-2" fab dark color="indigo" to="/addevent">
-            <v-icon dark>mdi-plus</v-icon>
+            <v-icon dark>arrow-right</v-icon>
           </v-btn>
           <v-btn class="mx-2" fab dark color="indigo" to="/settings">
             <v-icon dark>settings-outline</v-icon>
           </v-btn>
         </div>
+        <v-btn text small>Select your theme</v-btn>
         <v-carousel
           :continuous="false"
           :cycle="false"
@@ -54,18 +54,19 @@
             <EventCard :item-data="event" v-on:editEvent="itemEditHandler" />
           </v-carousel-item>
         </v-carousel>
-        <v-btn text small>{{ eventIndex }}</v-btn>
+
         <v-btn
           x-large
           max-height="100"
           color="blue-grey"
           class="ma-2 white--text"
-          to="/cropimage"
+          to="/editor"
         >
-          Camera
-          <v-icon right dark>mdi-camera-plus</v-icon>
+          Next
+          <v-icon right dark>mdi-skip-next-outline</v-icon>
         </v-btn>
         <router-link to="/shoot">shoot</router-link>
+        <router-link to="/cropimage">crop</router-link>
       </template>
     </div>
   </div>
@@ -98,25 +99,24 @@ export default Vue.extend({
     };
   },
   created() {
-    console.log("home page created");
-    if (localStorage.getItem("userEvents")) {
-      try {
-        this.userEvents = JSON.parse(
-          localStorage.getItem("userEvents") as string
-        );
-      } catch (error) {
-        console.log("error", error);
-        this.error = true;
-      }
-    }
-    if (this.userEvents) {
-      this.userEvents.forEach((event: UserEvent) => {
-        const status = this.updateEventStatus(event, scenes as CategoryType[]);
-        event.status = status;
-      });
-    }
+    this.userEvents = this.loadUserEvents();
+    if (this.userEvents == null) return;
+
+    this.userEvents.forEach((event: UserEvent) => {
+      const status = this.updateEventStatus(event, scenes as CategoryType[]);
+      event.status = status;
+    });
   },
   methods: {
+    loadUserEvents() {
+      if (localStorage.getItem("userEvents")) {
+        try {
+          return JSON.parse(localStorage.getItem("userEvents") as string);
+        } catch (error) {
+          return null;
+        }
+      }
+    },
     itemEditHandler(itemData: UserEvent) {
       console.log("itemData", itemData);
     },
