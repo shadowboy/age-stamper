@@ -22,6 +22,10 @@
   </div>
   <!-- editing section -->
   <div v-else-if="state == 'editing'">
+    <div>
+      <router-link to="/home">home</router-link>|
+      <router-link to="/result">result</router-link>
+    </div>
     <div class="imageEditorApp"></div>
     <div
       ref="captureTarget"
@@ -30,18 +34,18 @@
     >
       <img :src="editingImage" style="height: 80vh;width:100%;" />
 
-      <stamper
-        ><img
+      <stamper style="position:absolute; top:70%; left:60%;">
+        <img
           ondragstart="return false;"
           style="width: 30px;height:auto;"
           v-for="c in characters"
           :key="c"
           :src="'/img/themes/bubble/' + c + '.png'"
-      /></stamper>
+        />
+      </stamper>
     </div>
-    <router-link to="/home">home</router-link>|
-    <router-link to="/result">result</router-link>
-    <button large color="primary" @click="downloadVisualReport">Capture</button>
+
+    <v-btn large color="primary" @click="downloadVisualReport">Save</v-btn>
     <v-btn large color="primary" @click="$refs.fileInput.click()">
       <input
         class="img-input"
@@ -50,9 +54,15 @@
         @change="fileSelected($event)"
         accept="image/*"
       />
-      Upload image
+      Change Photo
     </v-btn>
-    <v-btn color="orange" dark @click="sheet = !sheet">Styles </v-btn>
+    <v-btn large color="primary" @click="sheet = !sheet">Styles </v-btn>
+    <!-- save image dialog -->
+    <save-image-dialog
+      :imgDataURL="toImageDataURL"
+      v-on:closeEvent="savedHandler"
+    />
+
     <!-- Sheet -->
     <v-bottom-sheet v-model="sheet">
       <v-sheet class="text-center" height="60vh">
@@ -90,16 +100,19 @@
 <script lang="ts">
 import html2canvas from "html2canvas";
 import Stamper from "../components/Stamper.vue";
+import SaveImageDialog from "../components/SaveImageDialog.vue";
 
 export default {
   name: "editor",
   components: {
-    stamper: Stamper
+    stamper: Stamper,
+    "save-image-dialog": SaveImageDialog
   },
   data() {
     return {
       useDefaultUI: true,
-      state: "select",
+      toImageDataURL: null,
+      state: "select" as string,
       captureTarget: null,
       editingImage: null,
       sheet: false,
@@ -120,16 +133,20 @@ export default {
   },
   methods: {
     pickImage() {
+      // @ts-ignore
       (this.$refs.fileInput as HTMLInputElement).click();
     },
 
-    fileSelected(evt: Event) {
-      const input: HTMLInputElement = this.$refs.fileInput as HTMLInputElement;
+    fileSelected() {
+      // @ts-ignore
+      const input: HTMLInputElement = this.$refs.fileInput;
       const files = input.files;
       console.log("fileSelected files", files);
       if (files && files[0]) {
-        this.readFile(files[0], (imageData: any) => {
+        this.readFile(files[0], (imageData: string) => {
+          // @ts-ignore
           this.editingImage = imageData;
+          // @ts-ignore
           this.state = "editing";
         });
       }
@@ -150,9 +167,13 @@ export default {
       console.log("imageData");
     },
     downloadVisualReport() {
+      // const self = this;
+      // @ts-ignore
       html2canvas(this.$refs.captureTarget as HTMLElement)
         .then((canvas: any) => {
-          document.body.appendChild(canvas);
+          // document.body.appendChild(canvas);
+          //@ts-ignore
+          this.toImageDataURL = canvas.toDataURL();
         })
         .catch(error => {
           console.log("Erorr descargando reporte visual", error);
