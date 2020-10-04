@@ -16,6 +16,7 @@
     "tui-image-editor": "^3.10.0",
     "vue": "^2.6.11",
     "vue-advanced-cropper": "^0.17.3",
+    "vue-draggable-resizable": "^2.2.0",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.5",

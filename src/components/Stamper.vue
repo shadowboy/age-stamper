@@ -1,5 +1,5 @@
 <template>
-  <div style="position: absolute;" v-drag.window-only>
+  <div v-drag.window-only>
     <div><slot></slot></div>
   </div>
 </template>

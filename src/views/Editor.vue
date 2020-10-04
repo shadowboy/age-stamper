@@ -29,23 +29,37 @@
     <div class="imageEditorApp"></div>
     <div
       ref="captureTarget"
-      style="padding: 10px; border: 3px solid #ffcc00; box-sizing:border-box;"
-      align="center"
+      style="position: relative; width: 600px; height: 600px;padding: 0px; border: 1px solid #ffcc00; box-sizing:border-box;"
     >
-      <img :src="editingImage" style="height: 80vh;width:100%;" />
-
-      <stamper style="position:absolute; top:70%; left:60%;">
+      <img
+        :src="editingImage"
+        style="position: absolute; height: 100%; width:100%; object-fit: cover;"
+      />
+      <vue-draggable-resizable
+        w="auto"
+        h="auto"
+        :resizable="false"
+        :parent="true"
+        :lock-aspect-ratio="true"
+        style="border:0px "
+      >
         <img
           ondragstart="return false;"
-          style="width: 30px;height:auto;"
+          style="width:30px; height:30px"
           v-for="c in characters"
           :key="c"
           :src="'/img/themes/bubble/' + c + '.png'"
         />
-      </stamper>
+      </vue-draggable-resizable>
     </div>
 
-    <v-btn large color="primary" @click="downloadVisualReport">Save</v-btn>
+    <v-btn
+      large
+      color="primary"
+      :loading="loading"
+      @click="downloadVisualReport"
+      >Save</v-btn
+    >
     <v-btn large color="primary" @click="$refs.fileInput.click()">
       <input
         class="img-input"
@@ -56,67 +70,56 @@
       />
       Change Photo
     </v-btn>
-    <v-btn large color="primary" @click="sheet = !sheet">Styles </v-btn>
+    <v-btn large color="primary" @click="showSheet = true">Styles </v-btn>
     <!-- save image dialog -->
-    <save-image-dialog
-      :imgDataURL="toImageDataURL"
-      v-on:closeEvent="savedHandler"
-    />
+    <v-dialog v-model="showSaveImageDialog" width="500">
+      <save-image-dialog :imgDataURL="toImageDataURL">
+        <v-btn color="primary" @click="showSaveImageDialog = false">
+          Close
+        </v-btn>
+      </save-image-dialog>
+    </v-dialog>
 
-    <!-- Sheet -->
-    <v-bottom-sheet v-model="sheet">
+    <!-- bottom sheet -->
+    <v-bottom-sheet v-model="showSheet">
       <v-sheet class="text-center" height="60vh">
-        <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
+        <v-btn class="mt-6" text color="error" @click="showSheet = false">
           close
         </v-btn>
-        <v-container class="grey lighten-5 mb-6">
-          <v-row
-            align="center"
-            no-gutters
-            style="height: auto; padding: 0.5rem;"
-          >
-            <v-col v-for="n in 3" :key="n">
-              <v-btn large color="primary">
-                <v-card class="pa-2" outlined tile>
-                  One of three columns
-                </v-card>
-              </v-btn>
-            </v-col>
-          </v-row>
-
-          <v-row align="center" no-gutters style="height: auto;">
-            <v-col v-for="n in 3" :key="n * 2">
-              <v-card class="pa-2" outlined tile>
-                One of three columns
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
+        <sheet />
       </v-sheet>
     </v-bottom-sheet>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import html2canvas from "html2canvas";
-import Stamper from "../components/Stamper.vue";
+// import Stamper from "../components/Stamper.vue";
+import Sheet from "../components/Sheet.vue";
 import SaveImageDialog from "../components/SaveImageDialog.vue";
+import VueDraggableResizable from "vue-draggable-resizable";
+// optionally import default styles
+import "vue-draggable-resizable/dist/VueDraggableResizable.css";
 
 export default {
   name: "editor",
   components: {
-    stamper: Stamper,
-    "save-image-dialog": SaveImageDialog
+    // stamper: Stamper,
+    "save-image-dialog": SaveImageDialog,
+    "vue-draggable-resizable": VueDraggableResizable,
+    sheet: Sheet
   },
   data() {
     return {
       useDefaultUI: true,
       toImageDataURL: null,
-      state: "select" as string,
+      state: "select",
       captureTarget: null,
       editingImage: null,
-      sheet: false,
-      characters: ["0", "1", "2", "3", "yue", "nian"],
+      showSheet: false,
+      showSaveImageDialog: false,
+      loading: false,
+      characters: ["0", "1", "2", "3", "yue", "nian", "9"],
       options: {
         includeUI: {
           loadImage: {
@@ -134,16 +137,16 @@ export default {
   methods: {
     pickImage() {
       // @ts-ignore
-      (this.$refs.fileInput as HTMLInputElement).click();
+      this.$refs.fileInput.click();
     },
 
     fileSelected() {
       // @ts-ignore
-      const input: HTMLInputElement = this.$refs.fileInput;
+      const input = this.$refs.fileInput;
       const files = input.files;
       console.log("fileSelected files", files);
       if (files && files[0]) {
-        this.readFile(files[0], (imageData: string) => {
+        this.readFile(files[0], imageData => {
           // @ts-ignore
           this.editingImage = imageData;
           // @ts-ignore
@@ -151,33 +154,43 @@ export default {
         });
       }
     },
-    readFile(file: Blob, callback: Function) {
+    readFile(file, callback) {
       const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        const imageData = (e.target as FileReader).result;
+      reader.onload = evt => {
+        const imageData = evt.target.result;
         // console.log("imageData", imageData);
         callback(imageData);
       };
       reader.readAsDataURL(file);
     },
-    onAddText(pos: any) {
+    onAddText(pos) {
       console.log("imageData");
     },
-    onObjectMoved(props: any) {
+    onObjectMoved(props) {
       console.log("imageData");
     },
     downloadVisualReport() {
       // const self = this;
       // @ts-ignore
-      html2canvas(this.$refs.captureTarget as HTMLElement)
-        .then((canvas: any) => {
+      this.loading = true;
+      html2canvas(this.$refs.captureTarget)
+        .then(canvas => {
           // document.body.appendChild(canvas);
           //@ts-ignore
           this.toImageDataURL = canvas.toDataURL();
+          this.showSaveImageDialog = true;
+          this.loading = false;
         })
         .catch(error => {
           console.log("Erorr descargando reporte visual", error);
         });
+    },
+    savedHandler() {
+      console.log("saved");
+    },
+    sheetCloseHandler() {
+      console.log("sheetCloseHandler");
+      this.showSheet = false;
     }
   }
 };
@@ -185,5 +198,10 @@ export default {
 <style scoped>
 .img-input {
   display: none;
+}
+.drag-resize-class {
+  width: auto;
+  height: auto;
+  border: 10px solid red;
 }
 </style>
