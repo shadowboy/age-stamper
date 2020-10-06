@@ -41,7 +41,7 @@
         :resizable="false"
         :parent="true"
         :lock-aspect-ratio="true"
-        style="border:0px "
+        style="border:1px;padding: 4px"
       >
         <img
           ondragstart="return false;"
