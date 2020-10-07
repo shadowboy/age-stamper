@@ -1,0 +1,208 @@
+{
+    "code": 0,
+    "msg": "ok",
+    "data": {
+        "update_info": {
+            "time": 1601972122,
+            "version": 10,
+            "intro": "Text about what update in this version"
+        },
+        "file_list": [
+            "0.png",
+            "1.png",
+            "2.png",
+            "3.png",
+            "4.png",
+            "5.png",
+            "6.png",
+            "7.png",
+            "8.png",
+            "9.png",
+            "ge.png",
+            "nian.png",
+            "sui.png",
+            "tian.png",
+            "yue.png",
+            "zhou.png",
+            "preview.png"
+        ],
+        "base_url": "https:\/\/api.sinas3.com\/v1\/SAE_f1982\/static\/app\/time-signet\/styles\/",
+        "template_url": "https:\/\/api.sinas3.com\/v1\/SAE_f1982\/static\/app\/time-signet\/styles\/%style%\/%character%.png",
+        "styles": [
+            {
+                "id": 1,
+                "name": "random",
+                "intro": "",
+                "folder": "random",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 2,
+                "name": "s2_1",
+                "intro": "",
+                "folder": "s2_1",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 3,
+                "name": "purple",
+                "intro": "",
+                "folder": "purple",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 4,
+                "name": "bubble",
+                "intro": "",
+                "image": "",
+                "folder": "bubble",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 5,
+                "name": "s2_2",
+                "intro": "",
+                "image": "",
+                "folder": "s2_2",
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 6,
+                "name": "cartoon",
+                "intro": "",
+                "image": "",
+                "folder": "cartoon",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 7,
+                "name": "crazy",
+                "intro": "",
+                "image": "",
+                "folder": "crazy",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 8,
+                "name": "cute",
+                "intro": "",
+                "folder": "cute",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 9,
+                "name": "fs",
+                "intro": "",
+                "image": "",
+                "folder": "fs",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 10,
+                "name": "gray",
+                "intro": "",
+                "image": "",
+                "folder": "gray",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 11,
+                "name": "hyfangmo",
+                "intro": "",
+                "image": "",
+                "folder": "hyfangmo",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 12,
+                "name": "hyheizai",
+                "intro": "",
+                "folder": "hyheizai",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 13,
+                "name": "monster",
+                "intro": "",
+                "folder": "monster",
+                "padding": 0,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 14,
+                "name": "pf",
+                "intro": "",
+                "folder": "pf",
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 15,
+                "name": "yellow",
+                "intro": "",
+                "folder": "yellow",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 16,
+                "name": "mousedraw",
+                "intro": "",
+                "folder": "mousedraw",
+                "padding": 0,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            },
+            {
+                "id": 17,
+                "name": "s2_douyin",
+                "intro": "",
+                "folder": "s2_douyin",
+                "padding": -10,
+                "checked": false,
+                "visible": true,
+                "lock": false
+            }
+        ]
+    }
+}

@@ -48,7 +48,7 @@
           style="width:30px; height:30px"
           v-for="c in characters"
           :key="c"
-          :src="'/img/themes/bubble/' + c + '.png'"
+          :src="'/img/themes/' + selectedStyleFolder + '/' + c + '.png'"
         />
       </vue-draggable-resizable>
     </div>
@@ -86,7 +86,7 @@
         <v-btn class="mt-6" text color="error" @click="showSheet = false">
           close
         </v-btn>
-        <sheet />
+        <sheet v-on:itemSelected="styleItemSelected" />
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -117,6 +117,7 @@ export default {
       captureTarget: null,
       editingImage: null,
       showSheet: false,
+      selectedStyleFolder: "bubble",
       showSaveImageDialog: false,
       loading: false,
       characters: ["0", "1", "2", "3", "yue", "nian", "9"],
@@ -190,6 +191,10 @@ export default {
     },
     sheetCloseHandler() {
       console.log("sheetCloseHandler");
+      this.showSheet = false;
+    },
+    styleItemSelected(itemData) {
+      this.selectedStyleFolder = itemData.folder;
       this.showSheet = false;
     }
   }
