@@ -22,19 +22,52 @@
   </div>
   <!-- editing section -->
   <div v-else-if="state == 'editing'">
-    <div>
-      <router-link to="/home">home</router-link>|
-      <router-link to="/result">result</router-link>
-    </div>
     <div class="imageEditorApp"></div>
+    <div class="d-flex mb-6" flat tile style="padding: 10px;">
+      <v-btn large color="primary" class="pa-2" to="/home">
+        <v-icon>mdi-arrow-left-circle</v-icon>
+        <span>Back</span>
+      </v-btn>
+      <v-btn
+        large
+        color="primary"
+        class="pa-2"
+        style="margin-left: 10px;"
+        @click="$refs.fileInput.click()"
+      >
+        <input
+          class="img-input"
+          type="file"
+          ref="fileInput"
+          @change="fileSelected($event)"
+          accept="image/*"
+        />
+        <v-icon>mdi-file-upload</v-icon>
+        <span>Change Photo</span>
+      </v-btn>
+
+      <v-btn
+        large
+        class="ml-auto"
+        color="primary"
+        :loading="loading"
+        @click="downloadVisualReport"
+      >
+        <v-icon>mdi-content-save</v-icon>
+        <span>Save</span>
+      </v-btn>
+    </div>
     <div
       ref="captureTarget"
-      style="position: relative; width: 600px; height: 600px;padding: 0px; border: 1px solid #ffcc00; box-sizing:border-box;"
+      style="position: relative; width: 100%; height: 70vh;padding: 0px; border: 1px solid #ffcc00; box-sizing:border-box;"
     >
-      <img
+      <v-img
+        :aspect-ratio="16 / 9"
+        style="position: absolute; "
+        width="100%"
+        height="100%"
         :src="editingImage"
-        style="position: absolute; height: 100%; width:100%; object-fit: cover;"
-      />
+      ></v-img>
       <vue-draggable-resizable
         w="auto"
         h="auto"
@@ -53,24 +86,13 @@
       </vue-draggable-resizable>
     </div>
 
-    <v-btn
-      large
-      color="primary"
-      :loading="loading"
-      @click="downloadVisualReport"
-      >Save</v-btn
-    >
-    <v-btn large color="primary" @click="$refs.fileInput.click()">
-      <input
-        class="img-input"
-        type="file"
-        ref="fileInput"
-        @change="fileSelected($event)"
-        accept="image/*"
-      />
-      Change Photo
-    </v-btn>
-    <v-btn large color="primary" @click="showSheet = true">Styles </v-btn>
+    <div class="d-flex mb-6" flat tile style="padding: 10px;">
+      <v-btn large color="primary" class="ml-auto" @click="showSheet = true">
+        <v-icon>mdi-palette</v-icon>
+        <span>Styles</span>
+      </v-btn>
+    </div>
+
     <!-- save image dialog -->
     <v-dialog v-model="showSaveImageDialog" width="500">
       <save-image-dialog :imgDataURL="toImageDataURL">
@@ -85,6 +107,7 @@
       <v-sheet class="text-center" height="60vh">
         <v-btn class="mt-6" text color="error" @click="showSheet = false">
           close
+          <v-icon>mdi-close-circle</v-icon>
         </v-btn>
         <sheet v-on:itemSelected="styleItemSelected" />
       </v-sheet>
