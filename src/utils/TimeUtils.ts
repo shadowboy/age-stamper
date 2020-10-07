@@ -41,10 +41,10 @@ class TimeUtils {
     this.format = format;
     switch (this.format) {
       case _AgeFormat:
-        this.yearMark = " Years "; //岁
+        this.yearMark = "岁"; //岁
         break;
       default:
-        this.yearMark = " Years "; //年
+        this.yearMark = "年"; //年
         break;
     }
   }
@@ -91,25 +91,25 @@ class TimeUtils {
     const months = this.endTime.diff(withoutYearsDate, "months");
     const withoutMonthsDate = withoutYearsDate.add(months, "months");
     let days = this.endTime.diff(withoutMonthsDate, "days");
-    // console.log("withoutYearsDate :" + withoutYearsDate.format("YYYY-MM-DD"));
-    // console.log("withoutMonthsDate :" + withoutMonthsDate.format("YYYY-MM-DD"));
+    console.log("withoutYearsDate :" + withoutYearsDate.format("YYYY-MM-DD"));
+    console.log("withoutMonthsDate :" + withoutMonthsDate.format("YYYY-MM-DD"));
     let output = "";
     if (year > 0) {
       if (months === 0 && days === 0) {
         //周年判断
-        output += year + " Weeks " + this.yearMark + " ";
+        output += year + "周" + this.yearMark + " ";
       } else {
-        output += year + this.yearMark + " ";
+        output += year + this.yearMark;
       }
     }
 
     if (months > 0) {
-      output += months + " Months ";
+      output += months + "个月";
     }
     if (year < 1) {
       //第二天虽然没满，但是也算是第二天
       days += 1;
-      output += days + " Days";
+      output += days + "天";
     }
     return output;
   }
@@ -135,11 +135,11 @@ class TimeUtils {
       }
     }
     if (months > 0) {
-      output += months + " Months ";
+      output += months + "个月";
     }
     if (days > 0 && withDay === true) {
       days += 1;
-      output += days + " Days ";
+      output += days + "天";
     }
     return output;
   }
@@ -147,28 +147,28 @@ class TimeUtils {
   getMonths(): string {
     let output = "";
     const months = this.endTime.diff(this.startDateOriginal, "months");
-    output += months + " Days ";
+    output += months + "个月";
     return output;
   }
 
   getWeeks(): string {
     let output = "";
     const weeks = this.endTime.diff(this.startDateOriginal, "weeks");
-    output += weeks + " Weeks ";
+    output += weeks + "周";
     return output;
   }
 
   getDays(): string {
     let output = "";
     const days = this.endTime.diff(this.startDateOriginal, "days");
-    output += String(days + 1) + " Days "; //当天就是第一天
+    output += String(days + 1) + "天"; //当天就是第一天
     return output;
   }
 
   getSeconds(): string {
     let output = "";
     const seconds = this.endTime.diff(this.startDateOriginal, "seconds");
-    output += String(seconds + 1) + " Secs "; //当天就是第一天
+    output += String(seconds + 1) + "秒"; //当天就是第一天
     return output;
   }
 }

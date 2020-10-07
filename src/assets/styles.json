@@ -81,17 +81,6 @@
                 "lock": false
             },
             {
-                "id": 6,
-                "name": "cartoon",
-                "intro": "",
-                "image": "",
-                "folder": "cartoon",
-                "padding": 0,
-                "checked": false,
-                "visible": true,
-                "lock": false
-            },
-            {
                 "id": 7,
                 "name": "crazy",
                 "intro": "",
@@ -118,17 +107,6 @@
                 "intro": "",
                 "image": "",
                 "folder": "fs",
-                "padding": 0,
-                "checked": false,
-                "visible": true,
-                "lock": false
-            },
-            {
-                "id": 10,
-                "name": "gray",
-                "intro": "",
-                "image": "",
-                "folder": "gray",
                 "padding": 0,
                 "checked": false,
                 "visible": true,
@@ -178,16 +156,6 @@
                 "name": "yellow",
                 "intro": "",
                 "folder": "yellow",
-                "padding": 0,
-                "checked": false,
-                "visible": true,
-                "lock": false
-            },
-            {
-                "id": 16,
-                "name": "mousedraw",
-                "intro": "",
-                "folder": "mousedraw",
                 "padding": 0,
                 "checked": false,
                 "visible": true,

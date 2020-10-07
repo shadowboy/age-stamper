@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card max-width="450" style="margin: 1rem auto;">
     <router-link to="/home"> Home</router-link>
     <v-list two-line subheader>
       <v-subheader>General</v-subheader>
@@ -52,7 +52,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-  </div>
+  </v-card>
 </template>
 
 <script>

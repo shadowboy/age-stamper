@@ -1,75 +1,52 @@
 <template>
-  <div class="home">
-    <v-alert
-      v-model="error"
-      dismissible
-      close-icon="mdi-delete"
-      color="cyan"
-      border="left"
-      elevation="2"
-      colored-border
-      icon="mdi-twitter"
-    >
-      You've got <strong>5</strong> new updates on your timeline!.
-    </v-alert>
-    <div class="d-flex flex-column mb-6">
-      <template v-if="userEvents == null">
-        <v-card class="mx-auto" max-width="344" outlined>
-          <v-list-item three-line>
-            <v-list-item-content>
-              You don't have any event, click the button to add new event.
-            </v-list-item-content>
-          </v-list-item>
-          <v-card-actions>
-            <v-btn class="mx-2" fab dark color="indigo" to="/addevent">
-              <v-icon dark>mdi-plus</v-icon>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-      <template v-else>
-        <div>
+  <v-card max-width="450" style="margin: 1rem auto; padding: 1rem;">
+    <template v-if="userEvents == null">
+      <v-card class="mx-auto" max-width="344" outlined>
+        <v-list-item three-line>
+          <v-list-item-content>
+            You don't have any event, click the button to add new event.
+          </v-list-item-content>
+        </v-list-item>
+        <v-card-actions>
           <v-btn class="mx-2" fab dark color="indigo" to="/addevent">
-            <v-icon dark>arrow-right</v-icon>
+            <v-icon dark>mdi-plus</v-icon>
           </v-btn>
-          <v-btn class="mx-2" fab dark color="indigo" to="/settings">
-            <v-icon dark>settings-outline</v-icon>
-          </v-btn>
-        </div>
-        <v-btn text small>Select your theme</v-btn>
-        <v-carousel
-          :continuous="false"
-          :cycle="false"
-          v-model="eventIndex"
-          height="400"
-          hide-delimiter-background
-          show-arrows-on-hover
-        >
-          <v-carousel-item
-            v-for="(event, i) in userEvents"
-            :key="i"
-            reverse-transition="scroll-x-reverse-transition"
-            transition="scroll-x-transition"
-          >
-            <EventCard :item-data="event" v-on:editEvent="itemEditHandler" />
-          </v-carousel-item>
-        </v-carousel>
-
-        <v-btn
-          x-large
-          max-height="100"
-          color="blue-grey"
-          class="ma-2 white--text"
-          to="/editor"
-        >
-          Next
-          <v-icon right dark>mdi-skip-next-outline</v-icon>
+        </v-card-actions>
+      </v-card>
+    </template>
+    <template v-else>
+      <div class="d-flex" style="margin-bottom: 1rem;">
+        <v-spacer></v-spacer>
+        <v-btn class="mx-2" dark color="indigo" to="/addevent">
+          Add New
+          <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
-        <router-link to="/shoot">shoot</router-link>
-        <router-link to="/cropimage">crop</router-link>
-      </template>
-    </div>
-  </div>
+      </div>
+      <v-carousel
+        :continuous="false"
+        :cycle="false"
+        v-model="eventIndex"
+        height="400"
+      >
+        <v-carousel-item
+          v-for="(event, i) in userEvents"
+          :key="i"
+          reverse-transition="scroll-x-reverse-transition"
+          transition="scroll-x-transition"
+        >
+          <event-card :item-data="event" v-on:editEvent="itemEditHandler" />
+        </v-carousel-item>
+      </v-carousel>
+      <div class="d-flex" style="margin-bottom: 1rem;">
+        <v-spacer></v-spacer>
+        <v-btn color="blue" class="ma-3 white--text" @click="nextHandler">
+          Next
+          <v-icon right dark>mdi-skip-next</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+      </div>
+    </template>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -88,7 +65,7 @@ export default Vue.extend({
     titleTemplate: "%s | Home"
   },
   components: {
-    EventCard
+    "event-card": EventCard
     // HelloWorld
   },
   data() {
@@ -120,9 +97,11 @@ export default Vue.extend({
     itemEditHandler(itemData: UserEvent) {
       console.log("itemData", itemData);
     },
-    /**
-     *
-     */
+    nextHandler() {
+      const itemData: any = this.userEvents[this.eventIndex];
+      console.log("selected item:", itemData);
+      this.$router.push("/editor/" + itemData.start);
+    },
     updateEventStatus(event: UserEvent, sceneList: CategoryType[]) {
       const scene: CategoryType = sceneList.find(
         (item: CategoryType) => item.id === event.scene

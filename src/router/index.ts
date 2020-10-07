@@ -41,7 +41,7 @@ const routes: Array<RouteConfig> = [
         component: () => import("../views/ShootPicture.vue")
       },
       {
-        path: "editor",
+        path: "editor/:time",
         component: () => import("../views/Editor.vue")
       },
       {

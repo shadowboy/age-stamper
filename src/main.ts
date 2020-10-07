@@ -13,11 +13,3 @@ new Vue({
   render: h => h(App)
 }).$mount("#app");
 
-
-// if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-//   window.document.addEventListener('touchmove', (e: any) => {
-//     if (e.scale !== 1) {
-//       e.preventDefault();
-//     }
-//   }, { passive: false });
-// }

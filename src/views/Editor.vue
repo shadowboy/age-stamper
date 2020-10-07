@@ -5,33 +5,36 @@
 </style>
 <template>
   <!-- select section -->
-  <div v-if="state == 'select'">
-    <div class="d-flex flex-column mb-6">Select Image You Want To Stamp</div>
-    <div class="d-flex flex-column mb-6">
-      <v-btn large color="primary" @click="$refs.fileInput.click()">
-        <input
-          class="img-input"
-          type="file"
-          ref="fileInput"
-          @change="fileSelected($event)"
-          accept="image/*"
-        />
-        Upload image
-      </v-btn>
-    </div>
-  </div>
+  <v-card
+    v-if="state == 'select'"
+    class="d-flex flex-column justify-center align-center"
+    style="margin: 1rem auto"
+    max-width="500"
+    min-height="200"
+  >
+    <p>{{ $route.params.time }}</p>
+    <p>Select Image You Want To Stamp</p>
+
+    <v-btn large color="primary" @click="$refs.fileInput.click()">
+      <input
+        class="img-input"
+        type="file"
+        ref="fileInput"
+        @change="fileSelected($event)"
+        accept="image/*"
+      />
+      Upload image
+    </v-btn>
+  </v-card>
   <!-- editing section -->
-  <div v-else-if="state == 'editing'">
-    <div class="imageEditorApp"></div>
-    <div class="d-flex mb-6" flat tile style="padding: 10px;">
-      <v-btn large color="primary" class="pa-2" to="/home">
+  <v-card v-else-if="state == 'editing'">
+    <div class="d-flex" flat tile style="padding: 6px;">
+      <v-btn color="secondary" to="/home">
         <v-icon>mdi-arrow-left-circle</v-icon>
         <span>Back</span>
       </v-btn>
       <v-btn
-        large
-        color="primary"
-        class="pa-2"
+        color="secondary"
         style="margin-left: 10px;"
         @click="$refs.fileInput.click()"
       >
@@ -43,13 +46,11 @@
           accept="image/*"
         />
         <v-icon>mdi-file-upload</v-icon>
-        <span>Change Photo</span>
+        <span>Change</span>
       </v-btn>
-
       <v-btn
-        large
-        class="ml-auto"
         color="primary"
+        class="ml-auto"
         :loading="loading"
         @click="downloadVisualReport"
       >
@@ -59,7 +60,7 @@
     </div>
     <div
       ref="captureTarget"
-      style="position: relative; width: 100%; height: 70vh;padding: 0px; border: 1px solid #ffcc00; box-sizing:border-box;"
+      style="position: relative; width: 100%; height: 60vh;padding: 0px; border: 1px solid #ffcc00; box-sizing:border-box;"
     >
       <v-img
         :aspect-ratio="16 / 9"
@@ -87,48 +88,49 @@
     </div>
 
     <div class="d-flex mb-6" flat tile style="padding: 10px;">
-      <v-btn large color="primary" class="ml-auto" @click="showSheet = true">
+      <v-btn color="primary" class="ml-auto" @click="showSheet = true">
         <v-icon>mdi-palette</v-icon>
         <span>Styles</span>
       </v-btn>
     </div>
 
-    <!-- save image dialog -->
-    <v-dialog v-model="showSaveImageDialog" width="500">
-      <save-image-dialog :imgDataURL="toImageDataURL">
-        <v-btn color="primary" @click="showSaveImageDialog = false">
-          Close
-        </v-btn>
-      </save-image-dialog>
-    </v-dialog>
-
     <!-- bottom sheet -->
     <v-bottom-sheet v-model="showSheet">
       <v-sheet class="text-center" height="60vh">
-        <v-btn class="mt-6" text color="error" @click="showSheet = false">
+        <v-btn @click="showSheet = false">
           close
           <v-icon>mdi-close-circle</v-icon>
         </v-btn>
         <sheet v-on:itemSelected="styleItemSelected" />
       </v-sheet>
     </v-bottom-sheet>
-  </div>
+  </v-card>
 </template>
 
 <script>
 import html2canvas from "html2canvas";
 // import Stamper from "../components/Stamper.vue";
 import Sheet from "../components/Sheet.vue";
-import SaveImageDialog from "../components/SaveImageDialog.vue";
+// import SaveImageDialog from "../components/SaveImageDialog.vue";
 import VueDraggableResizable from "vue-draggable-resizable";
 // optionally import default styles
 import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+import { TimeUtils } from "../utils/TimeUtils";
+
+const characterMap = new Map();
+characterMap.set("岁", "sui");
+characterMap.set("年", "nian");
+characterMap.set("周", "zhou");
+characterMap.set("月", "yue");
+characterMap.set("天", "tian");
+characterMap.set("个", "ge");
+characterMap.set("个", "ge");
 
 export default {
   name: "editor",
   components: {
     // stamper: Stamper,
-    "save-image-dialog": SaveImageDialog,
+    // "save-image-dialog": SaveImageDialog,
     "vue-draggable-resizable": VueDraggableResizable,
     sheet: Sheet
   },
@@ -143,7 +145,7 @@ export default {
       selectedStyleFolder: "bubble",
       showSaveImageDialog: false,
       loading: false,
-      characters: ["0", "1", "2", "3", "yue", "nian", "9"],
+      characters: [],
       options: {
         includeUI: {
           loadImage: {
@@ -157,6 +159,21 @@ export default {
         cssMaxHeight: 500
       }
     };
+  },
+  created() {
+    console.log("time:", this.$route.params.time);
+    const timeUtil = new TimeUtils(this.$route.params.time);
+    const str = timeUtil.getAdaptive();
+
+    for (let i = 0; i < str.length; i++) {
+      let character = str[i];
+      if (characterMap.has(character)) {
+        character = characterMap.get(character);
+      }
+      this.characters.push(character);
+    }
+
+    console.log("str:", str);
   },
   methods: {
     pickImage() {
@@ -202,8 +219,10 @@ export default {
           // document.body.appendChild(canvas);
           //@ts-ignore
           this.toImageDataURL = canvas.toDataURL();
-          this.showSaveImageDialog = true;
+          // this.showSaveImageDialog = true;
           this.loading = false;
+
+          this.downloadImage(this.toImageDataURL, this.$route.params.time);
         })
         .catch(error => {
           console.log("Erorr descargando reporte visual", error);
@@ -219,6 +238,15 @@ export default {
     styleItemSelected(itemData) {
       this.selectedStyleFolder = itemData.folder;
       this.showSheet = false;
+    },
+    downloadImage(file, downloadName = "download") {
+      const filePath = file;
+      const a = document.createElement("A");
+      a.href = filePath;
+      a.download = downloadName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   }
 };

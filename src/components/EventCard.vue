@@ -2,17 +2,23 @@
   <v-card class="mx-auto">
     <div class="no-data" v-if="itemData == null">No data!</div>
     <template v-else>
-      <v-img
-        class="white--text align-end"
-        height="200px"
-        :src="'/img/' + itemData.image"
-      ></v-img>
+      <v-img height="200px" :src="'/img/' + itemData.image"></v-img>
+      <v-btn
+        icon
+        absolute
+        style="right: 0rem; top:0rem;"
+        color="white"
+        text
+        v-on:click="editHandler"
+      >
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
       <v-card-title>{{ itemData.entity }}</v-card-title>
-      <v-card-subtitle class="pb-0">{{ itemData.start }}</v-card-subtitle>
+      <v-card-subtitle class="pb-0">
+        <v-icon>mdi-clock-start</v-icon>
+        <span>{{ itemData.start }}</span>
+      </v-card-subtitle>
       <v-card-text class="text">{{ itemData.status }}</v-card-text>
-      <v-card-actions class="text-end">
-        <v-btn color="orange" text v-on:click="editHandler">Edit</v-btn>
-      </v-card-actions>
     </template>
   </v-card>
 </template>
