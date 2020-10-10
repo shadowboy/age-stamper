@@ -5,9 +5,9 @@ class UserEventMgr {
 
   protected greet = "hello";
 
-  public constructor(t: string) {
-    this.greet = t;
-  }
+  // public constructor() {
+
+  // }
 
   public addNew(event: UserEvent): boolean {
     try {
