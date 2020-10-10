@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="450" style="margin: 1rem auto; padding: 1rem;">
+  <v-card max-width="600" style="margin: 1rem auto; padding: 1rem;">
     <template v-if="userEvents == null">
       <v-card class="mx-auto" max-width="344" outlined>
         <v-list-item three-line>

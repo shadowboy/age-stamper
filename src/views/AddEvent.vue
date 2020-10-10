@@ -1,49 +1,57 @@
 <template>
-  <form>
-    <v-select
-      v-model="select"
-      :items="categories"
-      :error-messages="selectErrors"
-      label="Scene Category"
-      required
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
-    ></v-select>
-    <v-text-field
-      v-model="name"
-      :error-messages="nameErrors"
-      :counter="10"
-      label="Your kid's name"
-      required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
-    ></v-text-field>
-    <v-dialog
-      ref="dialog"
-      v-model="modal"
-      :return-value.sync="date"
-      persistent
-      width="290px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field
-          v-model="date"
-          label="Select date"
-          prepend-icon=""
-          readonly
-          v-bind="attrs"
-          v-on="on"
-        ></v-text-field>
-      </template>
-      <v-date-picker v-model="date" scrollable>
-        <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
-        <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
-      </v-date-picker>
-    </v-dialog>
+  <v-card
+    class="d-flex flex-column justify-center align-center"
+    style="margin: 1rem auto; padding: 2rem;"
+    max-width="500"
+  >
+    <form style="width: 100%;">
+      <v-select
+        v-model="select"
+        :items="categories"
+        :error-messages="selectErrors"
+        label="Scene Category"
+        required
+        @change="$v.select.$touch()"
+        @blur="$v.select.$touch()"
+      ></v-select>
+      <v-text-field
+        v-model="name"
+        :error-messages="nameErrors"
+        :counter="10"
+        label="Your kid's name"
+        required
+        @input="$v.name.$touch()"
+        @blur="$v.name.$touch()"
+      ></v-text-field>
+      <v-dialog
+        ref="dialog"
+        v-model="modal"
+        :return-value.sync="date"
+        persistent
+        width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            v-model="date"
+            label="Select date"
+            prepend-icon=""
+            readonly
+            v-bind="attrs"
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="date" scrollable>
+          <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog.save(date)"
+            >OK</v-btn
+          >
+        </v-date-picker>
+      </v-dialog>
 
-    <v-btn class="mr-4" @click="submit">Save</v-btn>
-    <v-btn @click="clear">Cancel</v-btn>
-  </form>
+      <v-btn class="mr-4" @click="submit">Save</v-btn>
+      <v-btn @click="clear">Cancel</v-btn>
+    </form>
+  </v-card>
 </template>
 
 <script lang="ts">

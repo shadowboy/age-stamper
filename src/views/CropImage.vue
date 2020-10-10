@@ -18,17 +18,17 @@
       :stencil-component="$options.components.CircleStencil"
       ref="cropper"
     />
-    <save-image-dialog
+    <!-- <save-image-dialog
       :imgDataURL="toImageDataURL"
       v-on:closeEvent="savedHandler"
-    />
+    /> -->
     <router-link to="/home">Home</router-link>
   </div>
 </template>
 
 <script>
 import { Cropper } from "vue-advanced-cropper";
-import SaveImageDialog from "../components/SaveImageDialog.vue";
+// import SaveImageDialog from "../components/SaveImageDialog.vue";
 
 export default {
   name: "CropImage",
@@ -39,8 +39,8 @@ export default {
     titleTemplate: "%s | My Awesome Webapp"
   },
   components: {
-    Cropper,
-    "save-image-dialog": SaveImageDialog
+    Cropper
+    // "save-image-dialog": SaveImageDialog
     // CircleStencil
   },
   data() {
