@@ -51,6 +51,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import UserEventMgr from "../utils/UserEventMgr";
 import EventCard from "@/components/EventCard.vue";
 import { UserEvent, CategoryType } from "../types";
 import { TimeUtils } from "../utils/TimeUtils";
@@ -76,7 +77,8 @@ export default Vue.extend({
     };
   },
   created() {
-    this.userEvents = this.loadUserEvents();
+    const ueMgr = new UserEventMgr();
+    this.userEvents = ueMgr.getAll() as [];
     if (this.userEvents == null) return;
 
     this.userEvents.forEach((event: UserEvent) => {
@@ -85,21 +87,11 @@ export default Vue.extend({
     });
   },
   methods: {
-    loadUserEvents() {
-      if (localStorage.getItem("userEvents")) {
-        try {
-          return JSON.parse(localStorage.getItem("userEvents") as string);
-        } catch (error) {
-          return null;
-        }
-      }
-    },
     itemEditHandler(itemData: UserEvent) {
       console.log("itemData", itemData);
     },
     nextHandler() {
       const itemData: any = this.userEvents[this.eventIndex];
-      console.log("selected item:", itemData);
       this.$router.push("/editor/" + itemData.start);
     },
     updateEventStatus(event: UserEvent, sceneList: CategoryType[]) {

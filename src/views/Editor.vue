@@ -97,7 +97,7 @@
         <v-btn icon @click="showSheet = false">
           <v-icon>mdi-arrow-down-drop-circle</v-icon>
         </v-btn>
-        <sheet v-on:itemSelected="styleItemSelected" />
+        <style-sheet v-on:itemSelected="styleItemSelected" />
       </v-sheet>
     </v-bottom-sheet>
   </v-card>
@@ -105,10 +105,9 @@
 
 <script>
 import html2canvas from "html2canvas";
-import Sheet from "../components/Sheet.vue";
-import VueDraggableResizable from "vue-draggable-resizable";
-// optionally import default styles
 import "vue-draggable-resizable/dist/VueDraggableResizable.css";
+import VueDraggableResizable from "vue-draggable-resizable";
+import StyleSheet from "../components/StyleSheet.vue";
 import { TimeUtils } from "../utils/TimeUtils";
 
 const characterMap = new Map();
@@ -124,7 +123,7 @@ export default {
   name: "editor",
   components: {
     "vue-draggable-resizable": VueDraggableResizable,
-    sheet: Sheet
+    "style-sheet": StyleSheet
   },
   data() {
     return {

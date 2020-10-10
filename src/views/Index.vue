@@ -1,9 +1,10 @@
 <template>
-  <div class="about">
-    <h1>This is an Index page</h1>
-    <p>{{ msg }}</p>
-    <router-link to="/guidance">guidance</router-link>
-  </div>
+  <v-card class="mx-auto text-center" max-width="500" style="padding: 3rem;">
+    <h1>Age Stamper</h1>
+    <p>
+      Don't miss every moment, easily add trace of time to your lovely photo.
+    </p>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -11,11 +12,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Index",
-  data() {
-    return {
-      msg: "hello"
-    };
-  },
+
   created: function() {
     console.log("created");
     setTimeout(() => {
