@@ -60,6 +60,7 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
 import { UserEvent } from "../types";
 import { scenes } from "../config/App";
+import UserEventMgr from "../utils/UserEventMgr";
 
 export default Vue.extend({
   mixins: [validationMixin],
@@ -98,14 +99,6 @@ export default Vue.extend({
   },
 
   methods: {
-    addNewEvent(event: UserEvent): void {
-      let userEvents: UserEvent[] = [];
-      if (localStorage.getItem("userEvents")) {
-        userEvents = JSON.parse(localStorage.getItem("userEvents") as string);
-      }
-      userEvents.push(event);
-      localStorage.setItem("userEvents", JSON.stringify(userEvents));
-    },
     submit() {
       this.$v.$touch();
       //   console.log(this.name, this.date, this.select);
@@ -124,11 +117,11 @@ export default Vue.extend({
         // console.log("userEvent", userEvent);
         // return;
         try {
-          this.addNewEvent(userEvent);
+          const ueMgr = new UserEventMgr();
+          ueMgr.addNew(userEvent);
         } catch (e) {
           console.log("e", e);
         }
-
         this.$router.go(-1);
       }
     },

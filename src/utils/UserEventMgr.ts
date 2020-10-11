@@ -23,9 +23,9 @@ class UserEventMgr {
   public addExample(): boolean {
     const userEvent: UserEvent = {
       id: "1",
-      entity: "Tom",
+      entity: "Demo",
       start: "2015-06-03",
-      scene: 0,
+      scene: 1,
       image: "scene_company.jpg",
       count: 0,
       status: "",

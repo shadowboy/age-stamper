@@ -1,9 +1,10 @@
 <template>
   <v-card class="mx-auto text-center" max-width="500" style="padding: 3rem;">
-    <h1>Age Stamper</h1>
-    <p>
-      Don't miss every moment, easily add trace of time to your lovely photo.
-    </p>
+    <v-img
+      src="img/preload-loading.png"
+      width="200"
+      style="margin:1rem auto;"
+    />
   </v-card>
 </template>
 
@@ -12,9 +13,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "Index",
-
-  created: function() {
-    console.log("created");
+  mounted: function() {
     setTimeout(() => {
       if (parseInt(localStorage.visitCount) > 1) {
         this.$router.push({ path: "home" });

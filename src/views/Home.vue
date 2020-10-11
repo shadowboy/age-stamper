@@ -1,6 +1,6 @@
 <template>
   <v-card max-width="600" style="margin: 1rem auto; padding: 1rem;">
-    <template v-if="userEvents == null">
+    <template v-if="userEvents.length < 1">
       <v-card class="mx-auto" max-width="344" outlined>
         <v-list-item three-line>
           <v-list-item-content>
@@ -77,8 +77,13 @@ export default Vue.extend({
     };
   },
   created() {
+    console.log("created");
+  },
+  mounted() {
+    console.log("mounted");
     const ueMgr = new UserEventMgr();
     this.userEvents = ueMgr.getAll() as [];
+    console.log("this.userEvents", this.userEvents);
     if (this.userEvents == null) return;
 
     this.userEvents.forEach((event: UserEvent) => {
@@ -99,7 +104,8 @@ export default Vue.extend({
         (item: CategoryType) => item.id === event.scene
       ) as CategoryType;
       const format: string = event.timeFormat ? event.timeFormat : scene.format;
-      const timeUtil = new TimeUtils(event.start, scene.format);
+      console.log("format", format);
+      const timeUtil = new TimeUtils(event.start, format);
       let status = scene.status[0]; //which status format is used
       status = status.replace("%name%", event.entity);
       status = status.replace("%time%", timeUtil.getByFormat(format));

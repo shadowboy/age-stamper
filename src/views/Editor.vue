@@ -1,106 +1,103 @@
-<style scoped>
-.file-input {
-  display: none;
-}
-</style>
 <template>
-  <!-- select section -->
-  <v-card
-    v-if="state == 'select'"
-    class="d-flex flex-column justify-center align-center"
-    style="margin: 1rem auto; max-width:80%;"
-    max-width="500"
-    min-height="200"
-  >
-    <p>{{ $route.params.time }}</p>
-    <p>Select Image You Want To Stamp</p>
-    <v-btn large color="primary" @click="$refs.fileInput.click()">
-      <input
-        class="img-input"
-        type="file"
-        ref="fileInput"
-        @change="fileSelected($event)"
-        accept="image/*"
-      />
-      Upload image
-    </v-btn>
-  </v-card>
-  <!-- editing section -->
-  <v-card
-    v-else-if="state == 'editing'"
-    max-width="600"
-    style="margin: 1rem auto; padding: 1rem;"
-  >
-    <div class="d-flex" flat tile style="padding: 6px;">
-      <v-btn color="secondary" to="/home">
-        <v-icon>mdi-arrow-left-circle</v-icon>
-        <span>Back</span>
-      </v-btn>
-      <v-btn
-        color="secondary"
-        style="margin-left: 10px;"
-        @click="$refs.fileInput.click()"
+  <div>
+    <!-- select section -->
+    <v-dialog v-model="unselected" width="500">
+      <v-card
+        class="d-flex flex-column justify-center align-center"
+        style="padding: 1rem ;"
       >
-        <input
-          class="img-input"
-          type="file"
-          ref="fileInput"
-          @change="fileSelected($event)"
-          accept="image/*"
-        />
-        <v-icon>mdi-file-upload</v-icon>
-        <span>Change</span>
-      </v-btn>
-      <v-btn
-        color="primary"
-        class="ml-auto"
-        :loading="loading"
-        @click="captureEditedImage"
-      >
-        <v-icon>mdi-content-save</v-icon>
-        <span>Save</span>
-      </v-btn>
-    </div>
-    <div ref="editContainer" class="img-container">
-      <img
-        ref="editImg"
-        class="edited-img"
-        :src="editingImage"
-        @load="onImageLoaded"
-      />
-      <vue-draggable-resizable
-        w="auto"
-        h="auto"
-        :resizable="false"
-        :parent="true"
-        :lock-aspect-ratio="true"
-        style="border:1px; padding: 4px; display:flex; flex-direction: row;"
-      >
-        <img
-          ondragstart="return false;"
-          style="width:auto; height:30px"
-          v-for="(c, index) in characters"
-          :key="index"
-          :src="'img/themes/' + selectedStyleFolder + '/' + c + '.png'"
-        />
-      </vue-draggable-resizable>
-    </div>
-    <div class="d-flex" flat tile style="padding: 10px;">
-      <v-btn color="primary" class="ml-auto" @click="showSheet = true">
-        <v-icon>mdi-palette</v-icon>
-        <span>Styles</span>
-      </v-btn>
-    </div>
-    <!-- bottom sheet -->
-    <v-bottom-sheet v-model="showSheet">
-      <v-sheet class="text-center" height="60vh" style="padding-top:1rem;">
-        <v-btn icon @click="showSheet = false">
-          <v-icon>mdi-arrow-down-drop-circle</v-icon>
+        <p>Select Image You Want To Stamp</p>
+        <v-btn large color="primary" @click="$refs.fileInput.click()">
+          <input
+            class="img-input"
+            type="file"
+            ref="fileInput"
+            @change="fileSelected($event)"
+            accept="image/*"
+          />
+          Upload image
         </v-btn>
-        <style-sheet v-on:itemSelected="styleItemSelected" />
-      </v-sheet>
-    </v-bottom-sheet>
-  </v-card>
+      </v-card>
+    </v-dialog>
+    <!-- editing section -->
+    <v-card max-width="600" style="margin: 1rem auto; padding: 1rem;">
+      <v-flex v-if="debugMode == true">
+        width:{{ editImgWidth }},height:{{ editImgHeight }}
+        <p>{{ $route.params.time }}</p>
+      </v-flex>
+      <div class="d-flex" flat tile style="padding: 6px;">
+        <v-btn color="secondary" to="/home">
+          <v-icon>mdi-arrow-left-circle</v-icon>
+          <span>Back</span>
+        </v-btn>
+        <v-btn
+          color="secondary"
+          style="margin-left: 10px;"
+          @click="$refs.fileInput.click()"
+        >
+          <input
+            class="img-input"
+            type="file"
+            ref="fileInput"
+            @change="fileSelected($event)"
+            accept="image/*"
+          />
+          <v-icon>mdi-file-upload</v-icon>
+          <span>Change</span>
+        </v-btn>
+        <v-btn
+          color="primary"
+          class="ml-auto"
+          :loading="loading"
+          @click="captureEditedImage"
+        >
+          <v-icon>mdi-content-save</v-icon>
+          <span>Save</span>
+        </v-btn>
+      </div>
+
+      <div ref="editContainer" class="img-container">
+        <!--  :style="{ width: `${editImgWidth}px`, height: `${editImgHeight}px` }" -->
+        <img
+          ref="editImg"
+          class="edited-img"
+          :src="editingImage"
+          @load="onImageLoaded"
+        />
+        <vue-draggable-resizable
+          w="auto"
+          h="auto"
+          :resizable="false"
+          :parent="true"
+          :lock-aspect-ratio="true"
+          class="stamper"
+        >
+          <img
+            ondragstart="return false;"
+            style="width:30px; height:30px"
+            v-for="(c, index) in characters"
+            :key="index"
+            :src="'img/themes/' + selectedStyleFolder + '/' + c + '.png'"
+          />
+        </vue-draggable-resizable>
+      </div>
+      <div class="d-flex" flat tile style="padding: 10px;">
+        <v-btn color="primary" class="ml-auto" @click="showSheet = true">
+          <v-icon>mdi-palette</v-icon>
+          <span>Styles</span>
+        </v-btn>
+      </div>
+      <!-- bottom sheet -->
+      <v-bottom-sheet v-model="showSheet">
+        <v-sheet height="60vh" style="padding-top:1rem;">
+          <v-btn icon @click="showSheet = false">
+            <v-icon>mdi-arrow-down-drop-circle</v-icon>
+          </v-btn>
+          <style-sheet v-on:itemSelected="styleItemSelected" />
+        </v-sheet>
+      </v-bottom-sheet>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -127,11 +124,13 @@ export default {
   },
   data() {
     return {
+      debugMode: true,
       useDefaultUI: true,
       // toImageDataURL: null,
-      state: "select",
+      unselected: true,
       editImg: null,
-      editImgSize: { width: 0, height: 0 },
+      editImgWidth: 200,
+      editImgHeight: 200,
       editContainer: null,
       editingImage: null,
       showSheet: false,
@@ -167,7 +166,7 @@ export default {
           // @ts-ignore
           this.editingImage = imageData;
           // @ts-ignore
-          this.state = "editing";
+          this.unselected = false;
         });
       }
     },
@@ -175,27 +174,19 @@ export default {
       const reader = new FileReader();
       reader.onload = evt => {
         const imageData = evt.target.result;
-        // console.log("imageData", imageData);
         callback(imageData);
       };
       reader.readAsDataURL(file);
     },
 
     captureEditedImage() {
-      // const self = this;
-      // @ts-ignore
       this.loading = true;
       html2canvas(this.$refs.editContainer, {})
         .then(canvas => {
           this.loading = false;
-          console.log("start...");
           const base64Image = canvas.toDataURL("image/jpeg", 0.8);
-          console.log("base64Image...");
-
           const blob = this.base64ToBlob(base64Image);
-          console.log("blob...");
           const url = URL.createObjectURL(blob);
-          console.log("url", url);
           this.downloadURL(url, this.$route.params.time);
         })
         .catch(error => {
@@ -212,8 +203,10 @@ export default {
       console.log("evt", evt);
       console.log("editImg.style.width", this.$refs.editImg.width);
       console.log("editImg.style.height", this.$refs.editImg.height);
-      this.editImgSize.width = this.$refs.editImg.width;
-      this.editImgSize.height = this.$refs.editImg.height;
+      this.editImgWidth = this.$refs.editImg.width;
+      this.editImgHeight = this.$refs.editImg.height;
+      // this.$refs.editContainer.style.width = this.$refs.editImg.width;
+      // this.$refs.editContainer.style.height = this.$refs.editImg.height;
     },
 
     base64ToBlob(base64) {
@@ -227,6 +220,7 @@ export default {
       }
       return new Blob([uInt8Array], { type: contentType });
     },
+
     downloadURL(url, fileName = "download") {
       try {
         const a = document.createElement("A");
@@ -242,7 +236,11 @@ export default {
   }
 };
 </script>
+
 <style scoped>
+.file-input {
+  display: none;
+}
 .img-input {
   display: none;
 }
@@ -250,25 +248,32 @@ export default {
   position: relative;
   width: 100%;
   height: 500px;
-  padding: 0px;
   /* border: 1px solid #ffcc00; */
-  box-sizing: border-box;
+  /* padding: 0px; */
+  /* border: 1px solid #ffcc00; */
+  /* box-sizing: border-box;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 .edited-img {
   position: absolute;
-  width: auto;
+
   max-width: 100%;
   max-height: 100%;
-  left: 50%;
+  /* left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
+  transform: translate(-50%, -50%); */
+  /* object-fit: cover; */
+}
+.stamper {
+  border: 0px solid #ff0000;
+  /* padding: 4px; */
+  display: flex;
+  flex-direction: row;
 }
 .drag-resize-class {
   width: auto;
   height: auto;
-  border: 10px solid red;
+  /* border: 10px solid red; */
 }
 </style>

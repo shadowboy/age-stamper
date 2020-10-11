@@ -2,7 +2,7 @@
   <v-card class="mx-auto">
     <div class="no-data" v-if="itemData == null">No data!</div>
     <template v-else>
-      <v-img height="200px" :src="'/img/' + itemData.image"></v-img>
+      <v-img height="200px" :src="'img/' + itemData.image"></v-img>
       <v-btn
         icon
         absolute
