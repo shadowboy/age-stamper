@@ -1,5 +1,4 @@
 <template>
-  minor
   <v-card class="mx-auto text-center" width="600" style="padding: 3rem;">
     <h1>Guidance</h1>
 
