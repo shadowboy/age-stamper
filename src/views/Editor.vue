@@ -74,14 +74,14 @@
         :resizable="false"
         :parent="true"
         :lock-aspect-ratio="true"
-        style="border:1px; top:70%; left:50%;padding: 4px; display:flex; flex-direction: row;"
+        style="border:1px; padding: 4px; display:flex; flex-direction: row;"
       >
         <img
           ondragstart="return false;"
           style="width:auto; height:30px"
           v-for="(c, index) in characters"
           :key="index"
-          :src="'/img/themes/' + selectedStyleFolder + '/' + c + '.png'"
+          :src="'img/themes/' + selectedStyleFolder + '/' + c + '.png'"
         />
       </vue-draggable-resizable>
     </div>

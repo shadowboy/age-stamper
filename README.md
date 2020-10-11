@@ -39,3 +39,6 @@ npm run test:e2e
 npm run lint
 ```
 
+### Deploy to github pages
+
+npm run deploy

@@ -29,7 +29,7 @@ class UserEventMgr {
       image: "scene_company.jpg",
       count: 0,
       status: "",
-      timeFormat: ""
+      timeFormat: "year"
     };
     return this.addNew(userEvent);
   }

@@ -98,7 +98,7 @@ export default Vue.extend({
       const scene: CategoryType = sceneList.find(
         (item: CategoryType) => item.id === event.scene
       ) as CategoryType;
-      const format = event.timeFormat ? event.timeFormat : scene.format;
+      const format: string = event.timeFormat ? event.timeFormat : scene.format;
       const timeUtil = new TimeUtils(event.start, scene.format);
       let status = scene.status[0]; //which status format is used
       status = status.replace("%name%", event.entity);
