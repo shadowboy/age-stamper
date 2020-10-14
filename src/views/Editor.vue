@@ -153,19 +153,14 @@ export default {
   },
   methods: {
     pickImage() {
-      // @ts-ignore
       this.$refs.fileInput.click();
     },
     fileSelected() {
-      // @ts-ignore
       const input = this.$refs.fileInput;
       const files = input.files;
-      // console.log("fileSelected files", files);
       if (files && files[0]) {
         this.readFile(files[0], imageData => {
-          // @ts-ignore
           this.editingImage = imageData;
-          // @ts-ignore
           this.unselected = false;
         });
       }
@@ -190,7 +185,7 @@ export default {
           this.downloadURL(url, this.$route.params.time);
         })
         .catch(error => {
-          console.log("Erorr descargando reporte visual", error);
+          console.log("capture image failed", error);
         });
     },
 
@@ -205,8 +200,6 @@ export default {
       console.log("editImg.style.height", this.$refs.editImg.height);
       this.editImgWidth = this.$refs.editImg.width;
       this.editImgHeight = this.$refs.editImg.height;
-      // this.$refs.editContainer.style.width = this.$refs.editImg.width;
-      // this.$refs.editContainer.style.height = this.$refs.editImg.height;
     },
 
     base64ToBlob(base64) {

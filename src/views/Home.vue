@@ -67,7 +67,6 @@ export default Vue.extend({
   },
   components: {
     "event-card": EventCard
-    // HelloWorld
   },
   data() {
     return {
@@ -82,7 +81,7 @@ export default Vue.extend({
   mounted() {
     console.log("mounted");
     const ueMgr = new UserEventMgr();
-    this.userEvents = ueMgr.getAll() as [];
+    this.userEvents = ueMgr.load() as [];
     console.log("this.userEvents", this.userEvents);
     if (this.userEvents == null) return;
 
@@ -104,7 +103,7 @@ export default Vue.extend({
         (item: CategoryType) => item.id === event.scene
       ) as CategoryType;
       const format: string = event.timeFormat ? event.timeFormat : scene.format;
-      console.log("format", format);
+      // console.log("format", format);
       const timeUtil = new TimeUtils(event.start, format);
       let status = scene.status[0]; //which status format is used
       status = status.replace("%name%", event.entity);
