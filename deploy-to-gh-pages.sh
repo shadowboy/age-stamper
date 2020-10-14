@@ -20,6 +20,8 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
+# 也就是把 dist 文件夹下的一个独立的 git 仓库的 master 分支，部署到github ph-pages 这个分支
+
 git push -f git@github.com:f1982/age-stamper.git master:gh-pages
 
 cd -
