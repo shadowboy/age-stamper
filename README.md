@@ -6,6 +6,8 @@ Demo URL: https://f1982.github.io/age-stamper/
 
 ## Project setup
 
+To setup project you need to run follow command
+
 ```
 npm install
 ```
